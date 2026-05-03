@@ -1,0 +1,99 @@
+//first specify the version of protocol buffer
+syntax = "proto3";
+
+//identify the nameSpace i will used in c#
+option csharp_namespace = "CarPricePredictor.Grpc";
+
+//then package name
+package car_prediction;
+
+// service that i buid this app for
+service CarPriceService{
+	//the method used to predict the price of the car 
+	rpc PredictPrice (CarFeaturesRequest) returns (PriceResponse);
+}
+
+//Request Message that contains the features in ML 
+//.Net Send these data to the ML
+message CarFeaturesRequest {
+  // Basic dimensions
+  float wheel_base = 1;
+  float length = 2;
+  float width = 3;
+  float curb_weight = 4;
+
+  // Engine & performance
+  int32 engine_size = 5;
+  float bore = 6;
+  float stroke = 7;
+  float horsepower = 8;
+  float peak_rpm = 9;
+
+  // Fuel consumption
+  int32 city_mpg = 10;
+  int32 highway_mpg = 11;
+
+  // Fuel type
+  int32 gas = 12;
+  int32 diesel = 13;
+
+  // Drive type
+  int32 four_wd = 14;
+  int32 fwd = 15;
+  int32 rwd = 16;
+
+  // Brands (one-hot)
+  int32 alfa_romero = 17;
+  int32 audi = 18;
+  int32 bmw = 19;
+  int32 chevrolet = 20;
+  int32 dodge = 21;
+  int32 honda = 22;
+  int32 isuzu = 23;
+  int32 jaguar = 24;
+  int32 mazda = 25;
+  int32 mercedes_benz = 26;
+  int32 mercury = 27;
+  int32 mitsubishi = 28;
+  int32 nissan = 29;
+  int32 peugot = 30;
+  int32 plymouth = 31;
+  int32 porsche = 32;
+  int32 renault = 33;
+  int32 saab = 34;
+  int32 subaru = 35;
+  int32 toyota = 36;
+  int32 volkswagen = 37;
+  int32 volvo = 38;
+
+  // Other numeric features
+  float normalized_losses = 39;
+  int32 symboling = 40;
+
+  // Engine type (one-hot)
+  int32 dohc = 41;
+  int32 l = 42;
+  int32 ohc = 43;
+  int32 ohcf = 44;
+  int32 ohcv = 45;
+  int32 rotor = 46;
+
+  // Cylinders (one-hot)
+  int32 eight = 47;
+  int32 five = 48;
+  int32 four = 49;
+  int32 six = 50;
+  int32 three = 51;
+  int32 twelve = 52;
+  int32 two = 53;
+}
+//these numer is gRPC tags to sent number because it not send word like stoke no send number like 1,2 
+//and this make data small and faster rather than json
+
+//Response Message that contains the predicted price of the car
+message PriceResponse{
+	double predicted_price = 1;
+	string message = 2;//if you wanna note any thing
+}
+
+

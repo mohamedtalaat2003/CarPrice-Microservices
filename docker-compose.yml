@@ -1,0 +1,29 @@
+services:
+  # خدمة الذكاء الاصطناعي (Python)
+  ml-service:
+    build:
+      context: ./MicroServiceCarPricePrediction/MicroServiceCarPricePrediction
+      dockerfile: DockerFile
+    container_name: python-ml-service
+    networks:
+      - car-network
+
+  # خدمة الـ API (.NET)
+  api-service:
+    build:
+      context: ./CarPricePredictor/CarPricePredictor
+      dockerfile: Docker/DockerFile
+    container_name: dotnet-api-service
+    ports:
+      - "8080:80" 
+    environment:
+      - GrpcSettings__PythonServiceUrl=http://ml-service:50051
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - ml-service
+    networks:
+      - car-network
+
+networks:
+  car-network:
+    driver: bridge

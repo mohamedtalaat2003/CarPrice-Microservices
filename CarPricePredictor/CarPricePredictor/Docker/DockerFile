@@ -1,0 +1,20 @@
+# مرحلة البناء (Build)
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# نسخ ملف المشروع وعمل Restore
+COPY ["CarPricePredictor.csproj", "./"]
+RUN dotnet restore
+
+# نسخ باقي الملفات وعمل Publish
+COPY . .
+RUN dotnet publish -c Release -o /app/publish
+
+# مرحلة التشغيل (Runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# فتح بورت 80 (الافتراضي للـ API)
+EXPOSE 80
+ENTRYPOINT ["dotnet", "CarPricePredictor.dll"]

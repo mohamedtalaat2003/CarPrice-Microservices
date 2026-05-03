@@ -1,0 +1,27 @@
+# C# / .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.DS_Store
+.vs/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.env
+
+# Optional: Ignore large datasets or model files if needed, but we want to upload the models this time so they work automatically!
+# *.csv
+# *.pkl
