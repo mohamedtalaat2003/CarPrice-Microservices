@@ -1,0 +1,31 @@
+name: Build and Push to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: carpriceacr2003.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and Push ML Service (Python)
+      run: |
+        docker build -t carpriceacr2003.azurecr.io/ml-service:latest -f MicroServiceCarPricePrediction/MicroServiceCarPricePrediction/DockerFile ./MicroServiceCarPricePrediction/MicroServiceCarPricePrediction
+        docker push carpriceacr2003.azurecr.io/ml-service:latest
+
+    - name: Build and Push API Service (C#)
+      run: |
+        docker build -t carpriceacr2003.azurecr.io/api-service:latest -f CarPricePredictor/CarPricePredictor/Docker/DockerFile ./CarPricePredictor/CarPricePredictor
+        docker push carpriceacr2003.azurecr.io/api-service:latest
