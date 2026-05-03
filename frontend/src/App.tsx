@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CarFeatures, getHandshakeToken, predictPrice } from './api';
+import { type CarFeatures, getHandshakeToken, predictPrice } from './api';
 
 const defaultFeatures: CarFeatures = {
     make: 'audi',
