@@ -44,22 +44,34 @@ builder.Services.AddRateLimiter(options =>
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
         builder.AllowAnyOrigin()
+<<<<<<< Updated upstream
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
 });
 
+=======
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+})
+    ;
+>>>>>>> Stashed changes
 
 var app = builder.Build();
 
 app.UseMiddleware<CarPricePredictor.Middleware.ExceptionMiddleware>();
 app.UseRateLimiter();
+app.UseCors("AllowAll");
 app.UseMiddleware<CarPricePredictor.Middleware.ApiKeyMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
