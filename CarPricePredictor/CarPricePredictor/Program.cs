@@ -44,28 +44,15 @@ builder.Services.AddRateLimiter(options =>
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
         builder.AllowAnyOrigin()
-<<<<<<< Updated upstream
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
 });
-
-=======
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-    });
-})
-    ;
->>>>>>> Stashed changes
 
 var app = builder.Build();
 
