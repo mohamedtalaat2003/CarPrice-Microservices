@@ -174,7 +174,7 @@ const App = () => {
               <div style={{ marginTop: '5rem', textAlign: 'center', padding: '4rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '2rem', border: '2px solid var(--primary)' }}>
                 <h3 style={{ fontSize: '0.9rem', letterSpacing: '2px', color: '#94a3b8' }}>ESTIMATED MARKET PRICE</h3>
                 <div style={{ fontSize: '6rem', fontWeight: 900, color: 'white' }}>${price.toLocaleString()}</div>
-                <p style={{ color: var(--primary), fontWeight: 800 }}>83.3% Accuracy Confidence</p>
+                <p style={{ color: 'var(--primary)', fontWeight: 800 }}>83.3% Accuracy Confidence</p>
               </div>
             )}
           </div>
