@@ -91,5 +91,6 @@ export const predictPrice = async (token: string, features: CarFeatures): Promis
     const err = await res.text();
     throw new Error(err || "Prediction failed");
   }
-  return res.json();
+  const data = await res.json();
+  return data.predictedPrice ?? data.PredictedPrice;
 };
