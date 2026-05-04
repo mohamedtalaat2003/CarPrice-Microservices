@@ -57,8 +57,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseMiddleware<CarPricePredictor.Middleware.ExceptionMiddleware>();
-app.UseRateLimiter();
+app.UseRouting();
 app.UseCors("AllowAll");
+app.UseRateLimiter();
 app.UseMiddleware<CarPricePredictor.Middleware.ApiKeyMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
