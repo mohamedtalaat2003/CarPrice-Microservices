@@ -199,6 +199,15 @@ const App: React.FC = () => {
                                         <option value="4wd">All-Wheel Drive</option>
                                     </select>
                                 </div>
+                                <div className="input-box"><label>Normalized Losses</label><input type="number" name="normalizedLosses" value={features.normalizedLosses} onChange={handleChange} min="50" max="300" required /></div>
+                                <div className="input-box"><label>Insurance Symboling</label><input type="number" name="symboling" value={features.symboling} onChange={handleChange} min="-3" max="3" required /></div>
+                            </PredictionAccordion>
+
+                            <PredictionAccordion
+                                title="02 · ENGINE PERFORMANCE"
+                                isOpen={activeAccordion === 'engine'}
+                                onToggle={() => toggleAccordion('engine')}
+                            >
                                 <div className="input-box">
                                     <label>Engine Type</label>
                                     <select name="engineType" value={features.engineType} onChange={handleChange}>
@@ -207,13 +216,6 @@ const App: React.FC = () => {
                                         )}
                                     </select>
                                 </div>
-                            </PredictionAccordion>
-
-                            <PredictionAccordion
-                                title="02 · ENGINE PERFORMANCE"
-                                isOpen={activeAccordion === 'engine'}
-                                onToggle={() => toggleAccordion('engine')}
-                            >
                                 <div className="input-box"><label>Horsepower</label><input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} min="30" max="1000" required /></div>
                                 <div className="input-box"><label>Engine Size (CC)</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} min="30" max="500" required /></div>
                                 <div className="input-box">
@@ -240,8 +242,6 @@ const App: React.FC = () => {
                                 <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} min="50" max="100" required /></div>
                                 <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} min="5" max="100" required /></div>
                                 <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} min="5" max="100" required /></div>
-                                <div className="input-box"><label>Normalized Losses</label><input type="number" name="normalizedLosses" value={features.normalizedLosses} onChange={handleChange} min="50" max="300" required /></div>
-                                <div className="input-box"><label>Insurance Symboling</label><input type="number" name="symboling" value={features.symboling} onChange={handleChange} min="-3" max="3" required /></div>
                             </PredictionAccordion>
 
                             <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '2rem', padding: '1.1rem' }} disabled={loading}>
