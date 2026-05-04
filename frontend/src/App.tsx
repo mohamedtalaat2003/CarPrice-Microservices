@@ -77,8 +77,8 @@ const App: React.FC = () => {
             <section className="hero">
                 <div className="container hero-grid">
                     <div className="hero-content">
-                        <h1>Advanced Automotive Valuation.</h1>
-                        <p>Leveraging deep neural networks to provide precision market estimates for the modern trade.</p>
+                        <h1>Precision Pricing Engine</h1>
+                        <p>Stop guessing your car's worth. Our engine analyzes real-time market data to give you a fair, accurate price in seconds. Whether you’re buying or selling, we give you the confidence to make the right deal without leaving money on the table.</p>
                         <button 
                             className="btn-primary" 
                             onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })}
