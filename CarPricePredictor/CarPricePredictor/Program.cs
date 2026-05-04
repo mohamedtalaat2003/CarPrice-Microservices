@@ -44,7 +44,6 @@ builder.Services.AddRateLimiter(options =>
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
@@ -55,10 +54,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-
 var app = builder.Build();
 
 app.UseMiddleware<CarPricePredictor.Middleware.ExceptionMiddleware>();
+app.UseRouting();
+app.UseCors("AllowAll");
 app.UseRateLimiter();
 app.UseMiddleware<CarPricePredictor.Middleware.ApiKeyMiddleware>();
 // Configure the HTTP request pipeline.

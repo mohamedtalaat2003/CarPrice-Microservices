@@ -21,6 +21,12 @@ namespace CarPricePredictor.Middleware
                 return;
             }
 
+            if (context.Request.Method == "OPTIONS")
+            {
+                await _next(context);
+                return;
+            }
+
             if (!context.Request.Headers.TryGetValue(TokenHeaderName, out var extractedToken))
             {
                 
