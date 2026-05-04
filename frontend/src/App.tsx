@@ -214,8 +214,8 @@ const App: React.FC = () => {
                                 isOpen={activeAccordion === 'engine'}
                                 onToggle={() => toggleAccordion('engine')}
                             >
-                                <div className="input-box"><label>Horsepower</label><input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Engine Size (CC)</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Horsepower</label><input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} min="30" max="1000" required /></div>
+                                <div className="input-box"><label>Engine Size (CC)</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} min="30" max="500" required /></div>
                                 <div className="input-box">
                                     <label>Cylinders</label>
                                     <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
@@ -224,9 +224,9 @@ const App: React.FC = () => {
                                         )}
                                     </select>
                                 </div>
-                                <div className="input-box"><label>Peak RPM</label><input type="number" name="peakRpm" value={features.peakRpm} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Bore Ratio</label><input type="number" step="0.01" name="bore" value={features.bore} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Stroke</label><input type="number" step="0.01" name="stroke" value={features.stroke} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Peak RPM</label><input type="number" name="peakRpm" value={features.peakRpm} onChange={handleChange} min="3000" max="10000" required /></div>
+                                <div className="input-box"><label>Bore Ratio</label><input type="number" step="0.01" name="bore" value={features.bore} onChange={handleChange} min="2.0" max="5.0" required /></div>
+                                <div className="input-box"><label>Stroke</label><input type="number" step="0.01" name="stroke" value={features.stroke} onChange={handleChange} min="2.0" max="5.0" required /></div>
                             </PredictionAccordion>
 
                             <PredictionAccordion
@@ -234,12 +234,12 @@ const App: React.FC = () => {
                                 isOpen={activeAccordion === 'specs'}
                                 onToggle={() => toggleAccordion('specs')}
                             >
-                                <div className="input-box"><label>Curb Weight (lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Wheel Base</label><input type="number" step="0.1" name="wheelBase" value={features.wheelBase} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Length</label><input type="number" step="0.1" name="length" value={features.length} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} /></div>
-                                <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Curb Weight (lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} min="1000" max="10000" required /></div>
+                                <div className="input-box"><label>Wheel Base</label><input type="number" step="0.1" name="wheelBase" value={features.wheelBase} onChange={handleChange} min="50" max="200" required /></div>
+                                <div className="input-box"><label>Length</label><input type="number" step="0.1" name="length" value={features.length} onChange={handleChange} min="100" max="300" required /></div>
+                                <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} min="50" max="100" required /></div>
+                                <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} min="5" max="100" required /></div>
+                                <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} min="5" max="100" required /></div>
                             </PredictionAccordion>
 
                             <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '2rem', padding: '1.1rem' }} disabled={loading}>
