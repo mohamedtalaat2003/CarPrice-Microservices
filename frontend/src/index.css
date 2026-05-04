@@ -27,9 +27,22 @@ h1, h2, h3, .logo { font-family: 'Outfit', sans-serif; letter-spacing: -0.025em;
 
 /* Navbar */
 .navbar {
-  padding: 2.5rem 0;
+  padding: 1.5rem 0;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+  padding: 1rem 0;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .logo {
