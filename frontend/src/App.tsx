@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { type CarFeatures, getHandshakeToken, predictPrice } from './api';
+import React, { useState, useRef } from 'react';
+import { getHandshakeToken, predictPrice, type CarFeatures } from './api';
 
 const defaultFeatures: CarFeatures = {
     wheelBase: 99.8,
