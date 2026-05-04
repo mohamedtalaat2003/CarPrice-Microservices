@@ -27,7 +27,8 @@ const API_BASE = "https://api-service.calmmoss-0396cbc1.germanywestcentral.azure
 export const getHandshakeToken = async (): Promise<string> => {
   const res = await fetch(`${API_BASE}/Auth/handshake`);
   if (!res.ok) throw new Error("Handshake failed");
-  return res.text();
+  const data = await res.json();
+  return data.tempToken;
 };
 
 export const predictPrice = async (token: string, features: CarFeatures): Promise<number> => {
