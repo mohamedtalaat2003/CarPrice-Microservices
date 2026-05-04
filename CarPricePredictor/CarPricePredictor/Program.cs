@@ -49,7 +49,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("https://car-price-microservices-aye5.vercel.app")
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
