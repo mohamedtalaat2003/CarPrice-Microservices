@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import CarCard from './components/ui/CarCard';
 import TeamCard from './components/ui/TeamCard';
@@ -42,11 +42,36 @@ const teamData: TeamMember[] = [
     }
 ];
 
+// Scroll reveal hook
+const useScrollReveal = () => {
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+};
+
 const App: React.FC = () => {
     const [features, setFeatures] = useState<CarFeatures>(defaultFeatures);
     const [activeAccordion, setActiveAccordion] = useState<string | null>('basic');
     const { loading, price, error, runPrediction } = useCarPrediction();
     const predictorRef = useRef<HTMLDivElement>(null);
+
+    useScrollReveal();
+
+    const scrollToPredictor = () => {
+        predictorRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     const handlePredict = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -71,141 +96,191 @@ const App: React.FC = () => {
 
     return (
         <div className="app-wrapper">
-            <Navbar />
+            <Navbar onCtaClick={scrollToPredictor} />
 
-            {/* Hero Section */}
+            {/* ===== HERO ===== */}
             <section className="hero">
                 <div className="container hero-grid">
                     <div className="hero-content">
-                        <h1>Precision Pricing Engine</h1>
-                        <p>Stop guessing your car's worth. Our engine analyzes real-time market data to give you a fair, accurate price in seconds. Whether you’re buying or selling, we give you the confidence to make the right deal without leaving money on the table.</p>
-                        <button 
-                            className="btn-primary" 
-                            onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                        >
-                            Launch Estimator
-                        </button>
+                        <div className="hero-badge reveal">
+                            <span className="dot"></span>
+                            ML Model Active — 83.3% Precision
+                        </div>
+                        <h1 className="reveal reveal-delay-1">
+                            Precision Pricing<br /><span>Engine</span>
+                        </h1>
+                        <p className="reveal reveal-delay-2">
+                            Stop guessing your car's worth. Our engine analyzes real-time market data to give you a fair, accurate price in seconds.
+                        </p>
+                        <div className="hero-actions reveal reveal-delay-3">
+                            <button className="btn-primary" onClick={scrollToPredictor}>
+                                Launch Estimator
+                            </button>
+                            <button className="btn-outline" onClick={() => document.querySelector('.recent')?.scrollIntoView({ behavior: 'smooth' })}>
+                                View Benchmarks
+                            </button>
+                        </div>
                     </div>
-                    <div className="hero-image">
-                        <img src="/assets/hero_dashboard.png" alt="Intelligence Dashboard" style={{ width: '100%', borderRadius: '2.5rem' }} />
+                    <div className="hero-image reveal reveal-delay-2">
+                        <img src="/assets/hero_dashboard.png" alt="Intelligence Dashboard" />
                     </div>
                 </div>
             </section>
 
-            {/* Stats Overview */}
+            {/* ===== STATS ===== */}
             <section className="stats">
                 <div className="container stats-grid">
-                    <div className="stat-item"><h3>83.3%</h3><p>Model Confidence</p></div>
-                    <div className="stat-item"><h3>1.2M+</h3><p>Data Parameters</p></div>
-                    <div className="stat-item"><h3>22</h3><p>Major Brands</p></div>
-                    <div className="stat-item"><h3>Live</h3><p>Market Data</p></div>
+                    {[
+                        { val: '83.3%', label: 'Model Accuracy' },
+                        { val: '1.2M+', label: 'Data Points' },
+                        { val: '22', label: 'Vehicle Brands' },
+                        { val: 'Live', label: 'Market Feed' },
+                    ].map((s, i) => (
+                        <div key={i} className={`stat-item reveal reveal-delay-${i + 1}`}>
+                            <h3>{s.val}</h3>
+                            <p>{s.label}</p>
+                        </div>
+                    ))}
                 </div>
             </section>
 
-            {/* Showcase Showcase */}
+            {/* ===== SHOWCASE ===== */}
             <section className="recent">
                 <div className="container">
-                    <h2 className="section-title">Market Benchmarks</h2>
+                    <div className="section-header reveal">
+                        <div className="section-tag">Market Intelligence</div>
+                        <h2 className="section-title">Latest Valuations</h2>
+                    </div>
                     <div className="card-grid">
-                        {showcaseData.map((car, idx) => <CarCard key={idx} car={car} />)}
+                        {showcaseData.map((car, idx) => (
+                            <div key={idx} className={`reveal reveal-delay-${(idx % 3) + 1}`}>
+                                <CarCard car={car} />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* Prediction Engine */}
+            {/* ===== PREDICTOR ===== */}
             <section className="predictor" ref={predictorRef}>
                 <div className="container">
-                    <h2 className="section-title">Valuation Engine</h2>
-                    <div className="form-container">
+                    <div className="section-header reveal">
+                        <div className="section-tag">ML Engine</div>
+                        <h2 className="section-title">Get Your Estimate</h2>
+                    </div>
+                    <div className="form-container reveal reveal-delay-1">
                         <form onSubmit={handlePredict}>
-                            
-                            <PredictionAccordion 
-                                title="01. CORE CONFIGURATION" 
-                                isOpen={activeAccordion === 'basic'} 
+
+                            <PredictionAccordion
+                                title="01 · CORE CONFIGURATION"
+                                isOpen={activeAccordion === 'basic'}
                                 onToggle={() => toggleAccordion('basic')}
                             >
                                 <div className="input-box">
                                     <label>Vehicle Make</label>
                                     <select name="make" value={features.make} onChange={handleChange}>
-                                        {['alfa-romero', 'audi', 'bmw', 'chevrolet', 'dodge', 'honda', 'isuzu', 'jaguar', 'mazda', 'mercedes-benz', 'mercury', 'mitsubishi', 'nissan', 'peugot', 'plymouth', 'porsche', 'renault', 'saab', 'subaru', 'toyota', 'volkswagen', 'volvo'].map(m => <option key={m} value={m}>{m.toUpperCase()}</option>)}
+                                        {['alfa-romero','audi','bmw','chevrolet','dodge','honda','isuzu','jaguar','mazda','mercedes-benz','mercury','mitsubishi','nissan','peugot','plymouth','porsche','renault','saab','subaru','toyota','volkswagen','volvo'].map(m =>
+                                            <option key={m} value={m}>{m.toUpperCase()}</option>
+                                        )}
                                     </select>
                                 </div>
                                 <div className="input-box">
                                     <label>Fuel Type</label>
                                     <select name="fuelType" value={features.fuelType} onChange={handleChange}>
-                                        <option value="gas">GASOLINE</option>
-                                        <option value="diesel">DIESEL</option>
+                                        <option value="gas">Gasoline</option>
+                                        <option value="diesel">Diesel</option>
                                     </select>
                                 </div>
                                 <div className="input-box">
-                                    <label>Drive System</label>
+                                    <label>Drivetrain</label>
                                     <select name="driveWheels" value={features.driveWheels} onChange={handleChange}>
-                                        <option value="fwd">FRONT-WHEEL DRIVE</option>
-                                        <option value="rwd">REAR-WHEEL DRIVE</option>
-                                        <option value="4wd">4-WHEEL DRIVE</option>
+                                        <option value="fwd">Front-Wheel Drive</option>
+                                        <option value="rwd">Rear-Wheel Drive</option>
+                                        <option value="4wd">All-Wheel Drive</option>
+                                    </select>
+                                </div>
+                                <div className="input-box">
+                                    <label>Engine Type</label>
+                                    <select name="engineType" value={features.engineType} onChange={handleChange}>
+                                        {['dohc','l','ohc','ohcf','ohcv','rotor'].map(t =>
+                                            <option key={t} value={t}>{t.toUpperCase()}</option>
+                                        )}
                                     </select>
                                 </div>
                             </PredictionAccordion>
 
-                            <PredictionAccordion 
-                                title="02. ENGINE PERFORMANCE" 
-                                isOpen={activeAccordion === 'engine'} 
+                            <PredictionAccordion
+                                title="02 · ENGINE PERFORMANCE"
+                                isOpen={activeAccordion === 'engine'}
                                 onToggle={() => toggleAccordion('engine')}
                             >
                                 <div className="input-box"><label>Horsepower</label><input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Engine CC</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Engine Size (CC)</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} /></div>
                                 <div className="input-box">
                                     <label>Cylinders</label>
                                     <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
-                                        {['eight', 'five', 'four', 'six', 'three', 'twelve', 'two'].map(c => <option key={c} value={c}>{c.toUpperCase()}</option>)}
+                                        {['eight','five','four','six','three','twelve','two'].map(c =>
+                                            <option key={c} value={c}>{c.toUpperCase()}</option>
+                                        )}
                                     </select>
                                 </div>
                                 <div className="input-box"><label>Peak RPM</label><input type="number" name="peakRpm" value={features.peakRpm} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Bore Ratio</label><input type="number" step="0.01" name="bore" value={features.bore} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Stroke</label><input type="number" step="0.01" name="stroke" value={features.stroke} onChange={handleChange} /></div>
                             </PredictionAccordion>
 
-                            <PredictionAccordion 
-                                title="03. TECHNICAL SPECS" 
-                                isOpen={activeAccordion === 'specs'} 
+                            <PredictionAccordion
+                                title="03 · DIMENSIONS & EFFICIENCY"
+                                isOpen={activeAccordion === 'specs'}
                                 onToggle={() => toggleAccordion('specs')}
                             >
-                                <div className="input-box"><label>Curb Weight (Lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Wheel Base</label><input type="number" name="wheelBase" value={features.wheelBase} onChange={handleChange} /></div>
-                                <div className="input-box"><label>Bore Ratio</label><input type="number" name="bore" value={features.bore} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Curb Weight (lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Wheel Base</label><input type="number" step="0.1" name="wheelBase" value={features.wheelBase} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Length</label><input type="number" step="0.1" name="length" value={features.length} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} /></div>
                                 <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} /></div>
+                                <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} /></div>
                             </PredictionAccordion>
 
-                            <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '3rem' }} disabled={loading}>
-                                {loading ? 'Computing Intelligence...' : 'Generate Market Report'}
+                            <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '2rem', padding: '1.1rem' }} disabled={loading}>
+                                {loading ? <><span className="spinner"></span>Analyzing Market Data...</> : 'Generate Market Report'}
                             </button>
                         </form>
 
-                        {error && <div style={{ marginTop: '2rem', color: '#ef4444', textAlign: 'center', fontWeight: 600 }}>{error}</div>}
+                        {error && <div style={{ marginTop: '1.5rem', color: '#ef4444', textAlign: 'center', fontWeight: 600, fontSize: '0.9rem' }}>{error}</div>}
 
                         {price && (
                             <div className="result-card">
-                                <h3 className="result-label">ESTIMATED MARKET VALUE</h3>
+                                <h3 className="result-label">Estimated Market Value</h3>
                                 <div className="result-price">${price.toLocaleString()}</div>
-                                <p className="result-confidence">Model Reliability Score: 83.3%</p>
+                                <p className="result-confidence">83.3% Model Confidence</p>
                             </div>
                         )}
                     </div>
                 </div>
             </section>
 
-            {/* Team/Contact Section */}
+            {/* ===== CONTACT ===== */}
             <section className="contact">
                 <div className="container">
-                    <h2 className="section-title">Contact Support</h2>
+                    <div className="section-header reveal">
+                        <div className="section-tag">The Team</div>
+                        <h2 className="section-title">Contact Us</h2>
+                    </div>
                     <div className="contact-grid">
-                        {teamData.map((member, idx) => <TeamCard key={idx} member={member} />)}
+                        {teamData.map((member, idx) => (
+                            <div key={idx} className={`reveal reveal-delay-${idx + 1}`}>
+                                <TeamCard member={member} />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
             <footer>
                 <div className="container">
-                    <div className="logo" style={{ color: 'white', marginBottom: '1.5rem' }}>ELITEVAL.ML</div>
-                    <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>© 2026 Precision Automotive Analytics. All Rights Reserved.</p>
+                    <div className="logo" style={{ marginBottom: '1rem' }}>ELITEVAL.ML</div>
+                    <p>© 2026 EliteVal — Precision Automotive Analytics</p>
                 </div>
             </footer>
         </div>
