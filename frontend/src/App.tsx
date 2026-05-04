@@ -87,7 +87,7 @@ const App: React.FC = () => {
                         </button>
                     </div>
                     <div className="hero-image">
-                        <img src="/assets/hero.png" alt="Intelligence Dashboard" style={{ width: '100%', borderRadius: '2.5rem' }} />
+                        <img src="/assets/hero_dashboard.png" alt="Intelligence Dashboard" style={{ width: '100%', borderRadius: '2.5rem' }} />
                     </div>
                 </div>
             </section>
