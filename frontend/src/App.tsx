@@ -240,6 +240,8 @@ const App: React.FC = () => {
                                 <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} min="50" max="100" required /></div>
                                 <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} min="5" max="100" required /></div>
                                 <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} min="5" max="100" required /></div>
+                                <div className="input-box"><label>Normalized Losses</label><input type="number" name="normalizedLosses" value={features.normalizedLosses} onChange={handleChange} min="50" max="300" required /></div>
+                                <div className="input-box"><label>Insurance Symboling</label><input type="number" name="symboling" value={features.symboling} onChange={handleChange} min="-3" max="3" required /></div>
                             </PredictionAccordion>
 
                             <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '2rem', padding: '1.1rem' }} disabled={loading}>
