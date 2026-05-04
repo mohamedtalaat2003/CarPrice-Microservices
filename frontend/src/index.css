@@ -1,134 +1,160 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #2563eb;
-  --dark: #0f172a;
-  --bg-main: #ffffff;
+  --primary: #3b82f6;
+  --dark: #1e293b;
+  --bg-main: #fcfdfe;
   --border: #e2e8f0;
-  --accent: #10b981;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-main);
   color: var(--dark);
-  background: var(--bg-main);
-  overflow-x: hidden;
+  line-height: 1.5;
 }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
 /* Navbar */
 nav {
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: white;
+  border-bottom: 1px solid var(--border);
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--dark);
-  letter-spacing: -1px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #000;
+  text-transform: uppercase;
 }
 
-/* Hero */
-.hero { padding: 4rem 0 8rem; }
+/* Hero Section - Matching Mockup */
+.hero {
+  background: #0f172a;
+  color: white;
+  padding: 8rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 50%);
+}
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5rem;
+  gap: 4rem;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content h1 {
-  font-size: 5rem;
-  font-weight: 900;
-  line-height: 0.9;
-  margin-bottom: 2.5rem;
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 2rem;
   letter-spacing: -2px;
 }
 
 .hero-content p {
-  font-size: 1.4rem;
-  color: #64748b;
-  margin-bottom: 3.5rem;
-  max-width: 550px;
+  font-size: 1.5rem;
+  color: #94a3b8;
+  margin-bottom: 3rem;
 }
 
-.hero-image img {
-  width: 100%;
-  border-radius: 3rem;
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.15);
-}
-
-.btn-main {
-  background: var(--dark);
+.btn-blue {
+  background: var(--primary);
   color: white;
-  padding: 1.5rem 4rem;
-  border-radius: 5rem;
+  padding: 1.25rem 3rem;
+  border-radius: 0.75rem;
   font-weight: 700;
-  text-decoration: none;
   font-size: 1.1rem;
-  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.5);
   border: none;
   cursor: pointer;
 }
 
-.btn-main:hover {
-  background: var(--primary);
-  transform: scale(1.05);
-}
-
 /* Analytics Stats */
-.stats-banner {
-  background: var(--dark);
-  color: white;
+.stats {
   padding: 4rem 0;
-  margin-bottom: 5rem;
+  background: #1e293b;
+  color: white;
+  border-top: 1px solid #334155;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
   text-align: center;
 }
 
-.stat-item h2 { font-size: 3.5rem; font-weight: 900; color: var(--primary); }
-.stat-item p { font-size: 1.1rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; }
+.stat-item h3 { font-size: 3rem; font-weight: 800; color: var(--primary); }
 
-/* Car Cards */
-.recent { padding-bottom: 8rem; }
-.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.card { border-radius: 2rem; overflow: hidden; background: #f8fafc; padding: 1.5rem; }
-.card img { width: 100%; border-radius: 1.5rem; margin-bottom: 1.5rem; }
-.card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-.card-price { font-size: 1.5rem; font-weight: 900; color: var(--accent); }
-
-/* Form Accordion */
-.predictor { padding: 8rem 0; background: #f8fafc; }
-.accordion-item {
+/* Past Predictions List */
+.recent { padding: 6rem 0; }
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+.car-card {
   background: white;
   border-radius: 1.5rem;
-  margin-bottom: 1rem;
+  padding: 1.5rem;
   border: 1px solid var(--border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
 }
-.accordion-header { padding: 2rem; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; }
-.accordion-body { padding: 0 2rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.car-card img { width: 100%; border-radius: 1rem; margin-bottom: 1.5rem; }
+.car-card h4 { font-size: 1.25rem; font-weight: 700; }
+.car-price { font-size: 1.5rem; font-weight: 800; color: #10b981; margin-top: 0.5rem; }
 
-.input-box label { display: block; font-size: 0.8rem; font-weight: 800; margin-bottom: 0.5rem; color: #64748b; }
+/* Predictor Accordion - Matching Mockup */
+.predictor { padding: 8rem 0; background: #f8fafc; }
+.form-container { max-width: 900px; margin: 0 auto; }
+.accordion {
+  background: white;
+  border-radius: 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.accordion-header {
+  padding: 1.5rem 2.5rem;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  background: white;
+}
+.accordion-content {
+  padding: 0 2.5rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.input-box label { display: block; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: 0.5rem; }
 .input-box input, .input-box select {
-  width: 100%; padding: 1rem; border-radius: 1rem; border: 2px solid #f1f5f9; background: #f8fafc; font-weight: 600;
+  width: 100%; padding: 0.9rem 1.25rem; border-radius: 0.75rem; border: 1px solid var(--border);
+  font-family: inherit; font-size: 1rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr; text-align: center; }
-  .hero-content h1 { font-size: 3.5rem; }
-  .stats-grid { grid-template-columns: 1fr; }
+  .hero-content h1 { font-size: 3rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
   .card-grid { grid-template-columns: 1fr; }
+  .accordion-content { grid-template-columns: 1fr; }
 }

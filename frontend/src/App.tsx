@@ -2,35 +2,33 @@ import { useState, useRef } from 'react';
 import { type CarFeatures, getHandshakeToken, predictPrice } from './api';
 
 const defaultFeatures: CarFeatures = {
-    make: 'audi',
-    fuelType: 'gas',
-    aspiration: 'std',
-    numOfDoors: 'four',
-    bodyStyle: 'sedan',
-    driveWheels: 'fwd',
-    engineLocation: 'front',
     wheelBase: 99.8,
     length: 176.6,
     width: 66.2,
-    height: 54.3,
     curbWeight: 2337,
-    engineType: 'ohc',
-    numOfCylinders: 'four',
     engineSize: 109,
-    fuelSystem: 'mpfi',
     bore: 3.19,
     stroke: 3.4,
-    compressionRatio: 10,
     horsepower: 102,
     peakRpm: 5500,
     cityMpg: 24,
-    highwayMpg: 30
+    highwayMpg: 30,
+    normalizedLosses: 115,
+    symboling: 3,
+    make: 'audi',
+    fuelType: 'gas',
+    driveWheels: 'fwd',
+    engineType: 'ohc',
+    numOfCylinders: 'four'
 };
 
 const pastEstimates = [
   { brand: 'Audi A4 Premium', price: '$35,400', img: '/assets/audi.png' },
   { brand: 'BMW X5 xDrive', price: '$62,900', img: '/assets/bmw.png' },
   { brand: 'Honda Civic Sport', price: '$24,150', img: '/assets/honda.png' },
+  { brand: 'Toyota Camry XSE', price: '$28,400', img: '/assets/audi.png' }, // reusing assets for demo
+  { brand: 'Porsche 911 GT3', price: '$161,100', img: '/assets/bmw.png' },
+  { brand: 'Mercedes C-Class', price: '$44,850', img: '/assets/honda.png' },
 ];
 
 const App = () => {
@@ -38,7 +36,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState('basic');
+  const [activeSection, setActiveSection] = useState('basic');
   
   const predictorRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +50,7 @@ const App = () => {
       const predictedPrice = await predictPrice(token, features);
       setPrice(predictedPrice);
     } catch (err: any) {
-      setError(err.message || 'Error occurred.');
+      setError(err.message || 'Error occurred during valuation.');
     } finally {
       setLoading(false);
     }
@@ -66,51 +64,50 @@ const App = () => {
   return (
     <div>
       <nav className="container">
-        <div className="logo">AUTOVAL.AI</div>
-        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>ENTERPRISE DATA SOLUTIONS</div>
+        <div className="logo">VALUATE PRO</div>
+        <div style={{ display: 'flex', gap: '2rem', fontWeight: 600, fontSize: '0.9rem' }}>
+          <span>HOME</span>
+          <span>ANALYTICS</span>
+          <span>RESOURCES</span>
+        </div>
       </nav>
 
       {/* Hero */}
-      <section className="hero container">
-        <div className="hero-grid">
-          <div className="hero-content">
-            <h1>Precision Pricing. In One Click.</h1>
-            <p>Harness industrial-grade AI to decode car market values. With a 98.4% precision rate, we provide the most reliable data for buyers and sellers worldwide.</p>
-            <button onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })} className="btn-main">Get Valuation</button>
-          </div>
-          <div className="hero-image">
-            <img src="/assets/hero.png" alt="Data Analytics" />
+      <section className="hero">
+        <div className="container">
+          <div className="hero-grid">
+            <div className="hero-content">
+              <h1>CAR PRICE PREDICTION REIMAGINED.</h1>
+              <p>Get instant, professional valuations with the world's most advanced automotive AI.</p>
+              <button onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })} className="btn-blue">TRY IT NOW</button>
+            </div>
+            <div className="hero-image">
+              <img src="/assets/hero.png" alt="Futuristic Analytics" style={{ border: '10px solid rgba(255,255,255,0.1)' }} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Analytics Banner */}
-      <section className="stats-banner">
+      {/* Stats */}
+      <section className="stats">
         <div className="container stats-grid">
-          <div className="stat-item">
-            <h2>98.4%</h2>
-            <p>Model Precision</p>
-          </div>
-          <div className="stat-item">
-            <h2>12K+</h2>
-            <p>Daily Valuations</p>
-          </div>
-          <div className="stat-item">
-            <h2>50+</h2>
-            <p>Parameters Tracked</p>
-          </div>
+          <div className="stat-item"><h3>98.4%</h3><p>ACCURACY</p></div>
+          <div className="stat-item"><h3>50ms</h3><p>LATENCY</p></div>
+          <div className="stat-item"><h3>22</h3><p>BRANDS</p></div>
+          <div className="stat-item"><h3>10K+</h3><p>USERS</p></div>
         </div>
       </section>
 
-      {/* Recent Cases */}
+      {/* Past Predictions */}
       <section className="recent container">
-        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '3rem', letterSpacing: '-1px' }}>Latest Market Analytics</h2>
+        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '3rem' }}>Past Predictions</h2>
         <div className="card-grid">
           {pastEstimates.map((item, i) => (
-            <div key={i} className="card">
+            <div key={i} className="car-card">
               <img src={item.img} alt={item.brand} />
-              <h3>{item.brand}</h3>
-              <div className="card-price">{item.price}</div>
+              <h4>{item.brand}</h4>
+              <p style={{ color: '#64748b', fontSize: '0.85rem' }}>Engine: 2.8L, Sport Package</p>
+              <div className="car-price">{item.price}</div>
             </div>
           ))}
         </div>
@@ -119,66 +116,125 @@ const App = () => {
       {/* Predictor */}
       <section className="predictor" ref={predictorRef}>
         <div className="container">
-          <h2 style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 900, marginBottom: '4rem' }}>Configure Analytics</h2>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 800, marginBottom: '4rem' }}>Expert Valuation Engine</h2>
+          <div className="form-container">
             <form onSubmit={handlePredict}>
               
-              <div className="accordion-item">
-                <div className="accordion-header" onClick={() => setActiveTab('basic')}>
+              {/* Group 1: Basic */}
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveSection('basic')}>
                   <span>Basic Details</span>
-                  <span>{activeTab === 'basic' ? '−' : '+'}</span>
+                  <span>{activeSection === 'basic' ? '−' : '+'}</span>
                 </div>
-                {activeTab === 'basic' && (
-                  <div className="accordion-body">
+                {activeSection === 'basic' && (
+                  <div className="accordion-content">
                     <div className="input-box">
-                      <label>Vehicle Make</label>
+                      <label>Make</label>
                       <select name="make" value={features.make} onChange={handleChange}>
                         <option value="audi">Audi</option>
                         <option value="bmw">BMW</option>
                         <option value="toyota">Toyota</option>
+                        <option value="porsche">Porsche</option>
+                        <option value="honda">Honda</option>
                       </select>
                     </div>
                     <div className="input-box">
-                      <label>Fuel Specification</label>
+                      <label>Fuel Type</label>
                       <select name="fuelType" value={features.fuelType} onChange={handleChange}>
-                        <option value="gas">Gasoline</option>
+                        <option value="gas">Gas</option>
                         <option value="diesel">Diesel</option>
                       </select>
                     </div>
+                    <div className="input-box">
+                      <label>Drive Type</label>
+                      <select name="driveWheels" value={features.driveWheels} onChange={handleChange}>
+                        <option value="fwd">FWD</option>
+                        <option value="rwd">RWD</option>
+                        <option value="4wd">4WD</option>
+                      </select>
+                    </div>
+                    <div className="input-box">
+                      <label>Symboling (-3 to 3)</label>
+                      <input type="number" name="symboling" value={features.symboling} onChange={handleChange} />
+                    </div>
                   </div>
                 )}
               </div>
 
-              <div className="accordion-item">
-                <div className="accordion-header" onClick={() => setActiveTab('engine')}>
-                  <span>Performance & Engine</span>
-                  <span>{activeTab === 'engine' ? '−' : '+'}</span>
+              {/* Group 2: Engine */}
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveSection('engine')}>
+                  <span>Engine & Performance</span>
+                  <span>{activeSection === 'engine' ? '−' : '+'}</span>
                 </div>
-                {activeTab === 'engine' && (
-                  <div className="accordion-body">
+                {activeSection === 'engine' && (
+                  <div className="accordion-content">
                     <div className="input-box">
-                      <label>Horsepower Output</label>
+                      <label>Horsepower</label>
                       <input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} />
                     </div>
                     <div className="input-box">
-                      <label>Displacement (CC)</label>
+                      <label>Engine Size (CC)</label>
                       <input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} />
+                    </div>
+                    <div className="input-box">
+                      <label>Cylinders</label>
+                      <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
+                        <option value="four">Four</option>
+                        <option value="six">Six</option>
+                        <option value="eight">Eight</option>
+                        <option value="five">Five</option>
+                        <option value="twelve">Twelve</option>
+                      </select>
+                    </div>
+                    <div className="input-box">
+                      <label>Peak RPM</label>
+                      <input type="number" name="peakRpm" value={features.peakRpm} onChange={handleChange} />
                     </div>
                   </div>
                 )}
               </div>
 
-              <button type="submit" className="btn-main" style={{ width: '100%', marginTop: '2rem' }} disabled={loading}>
-                {loading ? 'Processing...' : 'Generate Market Analytics'}
+              {/* Group 3: Dimensions */}
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveSection('dimensions')}>
+                  <span>Dimensions & Efficiency</span>
+                  <span>{activeSection === 'dimensions' ? '−' : '+'}</span>
+                </div>
+                {activeSection === 'dimensions' && (
+                  <div className="accordion-content">
+                    <div className="input-box">
+                      <label>Curb Weight (lbs)</label>
+                      <input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} />
+                    </div>
+                    <div className="input-box">
+                      <label>Wheel Base</label>
+                      <input type="number" name="wheelBase" value={features.wheelBase} onChange={handleChange} />
+                    </div>
+                    <div className="input-box">
+                      <label>City MPG</label>
+                      <input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} />
+                    </div>
+                    <div className="input-box">
+                      <label>Highway MPG</label>
+                      <input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button type="submit" className="btn-blue" style={{ width: '100%', marginTop: '2rem' }} disabled={loading}>
+                {loading ? 'ANALYZING MARKET...' : 'GENERATE EXPERT VALUATION'}
               </button>
             </form>
 
             {price && (
-              <div style={{ marginTop: '3rem', textAlign: 'center', padding: '3rem', background: 'white', borderRadius: '2rem', border: '2px solid #10b981' }}>
-                <h3 style={{ textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '2px', color: '#64748b' }}>Estimated Market Value</h3>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#065f46' }}>
-                  ${price.toLocaleString()}
+              <div style={{ marginTop: '3rem', textAlign: 'center', padding: '4rem', background: 'white', borderRadius: '2rem', border: '3px solid #3b82f6', boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.25)' }}>
+                <h3 style={{ textTransform: 'uppercase', color: '#64748b', fontSize: '0.9rem', letterSpacing: '2px' }}>Predicted Market Price</h3>
+                <div style={{ fontSize: '5rem', fontWeight: 900, color: '#1e293b' }}>
+                  ${price.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 </div>
+                <p style={{ color: '#3b82f6', fontWeight: 700 }}>AI Accuracy: 98.4% Confidence</p>
               </div>
             )}
           </div>
@@ -186,7 +242,7 @@ const App = () => {
       </section>
 
       <footer style={{ padding: '4rem 0', textAlign: 'center', background: 'white', borderTop: '1px solid var(--border)' }}>
-        <p style={{ fontWeight: 700 }}>© 2026 AUTOVAL.AI - Advanced Intelligence Agency</p>
+        <p style={{ fontWeight: 800 }}>© 2026 VALUATE PRO - AUTOMOTIVE INTELLIGENCE AGENCY</p>
       </footer>
     </div>
   );
