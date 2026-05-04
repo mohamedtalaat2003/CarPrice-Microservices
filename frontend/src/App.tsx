@@ -254,6 +254,12 @@ const App = () => {
               </button>
             </form>
 
+            {error && (
+              <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#fef2f2', color: '#b91c1c', borderRadius: '1rem', border: '1px solid #fee2e2', textAlign: 'center', fontWeight: 600 }}>
+                {error}
+              </div>
+            )}
+
             {price && (
               <div style={{ marginTop: '4rem', textAlign: 'center', padding: '5rem', background: 'white', borderRadius: '3rem', border: '5px solid #3b82f6', boxShadow: '0 40px 80px -20px rgba(59, 130, 246, 0.3)' }}>
                 <h3 style={{ textTransform: 'uppercase', color: '#64748b', fontSize: '1rem', letterSpacing: '4px', marginBottom: '1rem' }}>Valuation Complete</h3>
