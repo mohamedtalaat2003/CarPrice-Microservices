@@ -204,7 +204,7 @@ const App: React.FC = () => {
 
             <footer>
                 <div className="container">
-                    <div className="logo" style={{ color: 'white', marginBottom: '1.5rem' }}>ELITEVAL.AI</div>
+                    <div className="logo" style={{ color: 'white', marginBottom: '1.5rem' }}>ELITEVAL.ML</div>
                     <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>© 2026 Precision Automotive Analytics. All Rights Reserved.</p>
                 </div>
             </footer>

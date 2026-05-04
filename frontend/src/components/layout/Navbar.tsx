@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
     return (
         <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
             <div className="container">
-                <div className="logo">ELITEVAL.AI</div>
+                <div className="logo">ELITEVAL.ML</div>
             </div>
         </nav>
     );
