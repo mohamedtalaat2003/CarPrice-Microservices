@@ -9,13 +9,13 @@ const defaultFeatures: CarFeatures = {
     engineType: 'ohc', numOfCylinders: 'four'
 };
 
-const pastEstimates = [
-  { brand: 'Audi A4 Premium', price: '$35,400', img: '/assets/audi.png', acc: '99.1%' },
-  { brand: 'BMW X5 xDrive', price: '$62,900', img: '/assets/bmw.png', acc: '98.5%' },
-  { brand: 'Honda Civic Sport', price: '$24,150', img: '/assets/honda.png', acc: '97.9%' },
-  { brand: 'Toyota Camry XSE', price: '$28,400', img: '/assets/audi.png', acc: '98.2%' },
-  { brand: 'Porsche 911 GT3', price: '$161,100', img: '/assets/bmw.png', acc: '99.4%' },
-  { brand: 'Mercedes C-Class', price: '$44,850', img: '/assets/honda.png', acc: '98.8%' },
+const estimates = [
+  { brand: 'Audi A4 Premium', year: '2024', price: '$42,500', img: '/assets/audi.png' },
+  { brand: 'BMW X5 xDrive40i', year: '2023', price: '$68,200', img: '/assets/bmw.png' },
+  { brand: 'Honda Civic Sport', year: '2024', price: '$26,900', img: '/assets/honda.png' },
+  { brand: 'Audi Q5 Elite', year: '2022', price: '$38,400', img: '/assets/audi.png' },
+  { brand: 'BMW M3 Competition', year: '2024', price: '$82,100', img: '/assets/bmw.png' },
+  { brand: 'Honda Accord Touring', year: '2023', price: '$34,850', img: '/assets/honda.png' },
 ];
 
 const App = () => {
@@ -23,17 +23,16 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState('basic');
+  const [activeTab, setActiveTab] = useState('basic');
   
   const predictorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
+        if (entry.isIntersecting) entry.target.classList.add('reveal-active');
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
@@ -45,8 +44,8 @@ const App = () => {
     setPrice(null);
     try {
       const token = await getHandshakeToken();
-      const predictedPrice = await predictPrice(token, features);
-      setPrice(predictedPrice);
+      const result = await predictPrice(token, features);
+      setPrice(result);
     } catch (err: any) {
       setError(err.message || 'Error occurred.');
     } finally {
@@ -60,129 +59,177 @@ const App = () => {
   };
 
   return (
-    <div className="bg-grid">
-      <nav className="container">
-        <div className="logo" style={{ fontSize: '1.5rem', letterSpacing: '2px' }}>ELITEVAL.PRO</div>
-        <div style={{ display: 'flex', gap: '2rem', fontWeight: 700, fontSize: '0.8rem' }}>
-          <span>LIVE MARKET</span>
-          <span>RESOURCES</span>
-          <button onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })} className="btn-blue" style={{ padding: '0.6rem 1.5rem', fontSize: '0.7rem' }}>GET STARTED</button>
+    <div>
+      <nav>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="logo">VALUATE.PRO</div>
+          <div style={{ display: 'flex', gap: '3rem', fontWeight: 600, fontSize: '0.85rem' }}>
+            <span>ANALYTICS</span>
+            <span>RESOURCES</span>
+            <span>API ACCESS</span>
+          </div>
+          <button className="btn-nav" onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })}>TRY IT NOW</button>
         </div>
       </nav>
 
       {/* Hero */}
       <section className="hero">
-        <div className="container hero-grid reveal">
+        <div className="container hero-grid">
           <div className="hero-content">
-            <h1>CAR PRICE PREDICTION REIMAGINED.</h1>
-            <p>Harness the power of industrial AI to unlock precise market valuations in real-time. Data-driven results for elite automotive trade.</p>
-            <button onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })} className="btn-blue">LAUNCH ANALYTICS</button>
+            <h1 style={{ marginBottom: '1.5rem' }}>CAR PRICE PREDICTION REIMAGINED.</h1>
+            <p>Deploying industrial-grade machine learning to unlock instant, professional vehicle valuations with 98.4% precision.</p>
+            <button className="btn-nav" style={{ padding: '1.25rem 3rem', fontSize: '1.1rem' }} onClick={() => predictorRef.current?.scrollIntoView({ behavior: 'smooth' })}>Launch Estimator</button>
           </div>
-          <div className="hero-image" style={{ animation: 'float 6s ease-in-out infinite' }}>
-            <img src="/assets/hero.png" alt="Analytics" style={{ width: '100%', borderRadius: '2rem', boxShadow: '0 0 50px rgba(59, 130, 246, 0.3)' }} />
+          <div className="hero-image">
+            <img src="/assets/hero.png" alt="Data" style={{ width: '100%', borderRadius: '2.5rem', boxShadow: '0 40px 80px -20px rgba(0,0,0,0.2)' }} />
           </div>
         </div>
       </section>
 
-      {/* Dynamic Stats */}
+      {/* Analytics */}
       <section className="stats">
-        <div className="container reveal">
-          <h2 style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '4rem', fontWeight: 800 }}>Global Intelligence Network</h2>
+        <div className="container">
+          <h2 style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 900, marginBottom: '5rem' }}>Enterprise Intelligence Network</h2>
           <div className="stats-grid">
-            <div className="stat-item"><h3>98.4%</h3><p>MODEL PRECISION</p></div>
-            <div className="stat-item"><h3>1.2M+</h3><p>DATAPOINTS</p></div>
-            <div className="stat-item"><h3>22</h3><p>BRANDS TRACKED</p></div>
-            <div className="stat-item"><h3>60s</h3><p>MARKET REFRESH</p></div>
+            <div className="stat-card"><h3>98.4%</h3><p>MODEL PRECISION</p></div>
+            <div className="stat-card"><h3>1.2M+</h3><p>DATAPOINTS</p></div>
+            <div className="stat-card"><h3>22</h3><p>GLOBAL BRANDS</p></div>
+            <div className="stat-card"><h3>Real-time</h3><p>MARKET REFRESH</p></div>
           </div>
         </div>
       </section>
 
-      {/* Recent Predictions */}
-      <section className="recent container reveal">
-        <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '3rem' }}>Latest Verified Estimates</h2>
-        <div className="card-grid">
-          {pastEstimates.map((item, i) => (
-            <div key={i} className="car-card reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div style={{ position: 'relative' }}>
-                <img src={item.img} alt={item.brand} style={{ width: '100%', borderRadius: '1rem' }} />
-                <span style={{ position: 'absolute', top: '10px', right: '10px', background: 'var(--primary)', color: 'white', padding: '4px 10px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 800 }}>{item.acc} CONFIDENCE</span>
+      {/* Latest Estimates */}
+      <section className="recent">
+        <div className="container">
+          <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '4rem' }}>Latest Verified Estimates</h2>
+          <div className="card-grid">
+            {estimates.map((car, i) => (
+              <div key={i} className="car-card">
+                <img src={car.img} alt={car.brand} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                  <h4>{car.brand}</h4>
+                  <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 800 }}>MY {car.year}</span>
+                </div>
+                <div className="price">{car.price}</div>
               </div>
-              <h4 style={{ marginTop: '1rem' }}>{item.brand}</h4>
-              <div className="car-price">{item.price}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Predictor */}
-      <section className="predictor reveal" ref={predictorRef}>
+      <section className="predictor" ref={predictorRef}>
         <div className="container">
-          <div style={{ background: 'white', padding: '4rem', borderRadius: '3rem', border: '1px solid #e2e8f0', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.05)' }}>
-            <h2 style={{ textAlign: 'center', fontSize: '2.5rem', fontWeight: 800, marginBottom: '4rem' }}>Configure Expert Valuation</h2>
+          <h2 style={{ textAlign: 'center', fontSize: '3.5rem', fontWeight: 900, marginBottom: '5rem' }}>Configure Expert Valuation</h2>
+          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
             <form onSubmit={handlePredict}>
               
-              {/* Accordions */}
-              {[
-                { id: 'basic', label: 'Basic Configuration', fields: [
-                  { n: 'make', l: 'Make / Brand', t: 'select', opts: ['audi', 'bmw', 'toyota', 'honda', 'porsche'] },
-                  { n: 'fuelType', l: 'Fuel Type', t: 'select', opts: ['gas', 'diesel'] },
-                  { n: 'symboling', l: 'Risk Rating', t: 'number' }
-                ]},
-                { id: 'engine', label: 'Engine & Performance', fields: [
-                  { n: 'horsepower', l: 'Horsepower', t: 'number' },
-                  { n: 'engineSize', l: 'Engine Size', t: 'number' },
-                  { n: 'peakRpm', l: 'Peak RPM', t: 'number' }
-                ]},
-                { id: 'dim', label: 'Dimensions & Efficiency', fields: [
-                  { n: 'curbWeight', l: 'Curb Weight', t: 'number' },
-                  { n: 'cityMpg', l: 'City MPG', t: 'number' },
-                  { n: 'highwayMpg', l: 'Highway MPG', t: 'number' }
-                ]}
-              ].map(sec => (
-                <div key={sec.id} className="accordion" style={{ borderRadius: '1.5rem', overflow: 'hidden' }}>
-                  <div className="accordion-header" onClick={() => setActiveSection(sec.id)} style={{ padding: '1.5rem 2.5rem', fontWeight: 800, display: 'flex', justifySelf: 'space-between', cursor: 'pointer' }}>
-                    <span>{sec.label.toUpperCase()}</span>
-                    <span>{activeSection === sec.id ? '−' : '+'}</span>
-                  </div>
-                  {activeSection === sec.id && (
-                    <div className="accordion-content" style={{ padding: '0 2.5rem 2.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-                      {sec.fields.map(f => (
-                        <div className="input-box" key={f.n}>
-                          <label>{f.l}</label>
-                          {f.t === 'select' ? (
-                            <select name={f.n} value={(features as any)[f.n]} onChange={handleChange}>
-                              {f.opts?.map(o => <option key={o} value={o}>{o.toUpperCase()}</option>)}
-                            </select>
-                          ) : (
-                            <input type={f.t} name={f.n} value={(features as any)[f.n]} onChange={handleChange} />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveTab('basic')}>
+                  <span>BASIC SPECS & BRANDING</span>
+                  <span>{activeTab === 'basic' ? '−' : '+'}</span>
                 </div>
-              ))}
+                {activeTab === 'basic' && (
+                  <div className="accordion-content">
+                    <div className="input-group">
+                      <label>Make / Brand</label>
+                      <select name="make" value={features.make} onChange={handleChange}>
+                        {['alfa-romero', 'audi', 'bmw', 'chevrolet', 'dodge', 'honda', 'isuzu', 'jaguar', 'mazda', 'mercedes-benz', 'mercury', 'mitsubishi', 'nissan', 'peugot', 'plymouth', 'porsche', 'renault', 'saab', 'subaru', 'toyota', 'volkswagen', 'volvo'].map(m => (
+                          <option key={m} value={m}>{m.toUpperCase()}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="input-group">
+                      <label>Fuel Type</label>
+                      <select name="fuelType" value={features.fuelType} onChange={handleChange}>
+                        <option value="gas">Gasoline</option>
+                        <option value="diesel">Diesel</option>
+                      </select>
+                    </div>
+                    <div className="input-group">
+                      <label>Drive Wheels</label>
+                      <select name="driveWheels" value={features.driveWheels} onChange={handleChange}>
+                        <option value="fwd">FWD</option>
+                        <option value="rwd">RWD</option>
+                        <option value="4wd">4WD</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-              <button type="submit" className="btn-blue" style={{ width: '100%', marginTop: '3rem', padding: '1.5rem', borderRadius: '1rem' }} disabled={loading}>
-                {loading ? 'PROCESSING...' : 'GENERATE VALUATION REPORT'}
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveTab('engine')}>
+                  <span>ENGINE & PERFORMANCE</span>
+                  <span>{activeTab === 'engine' ? '−' : '+'}</span>
+                </div>
+                {activeTab === 'engine' && (
+                  <div className="accordion-content">
+                    <div className="input-group">
+                      <label>Horsepower</label>
+                      <input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Engine Size (CC)</label>
+                      <input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Cylinder Count</label>
+                      <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
+                        {['eight', 'five', 'four', 'six', 'three', 'twelve', 'two'].map(c => <option key={c} value={c}>{c.toUpperCase()}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="accordion">
+                <div className="accordion-header" onClick={() => setActiveTab('dimensions')}>
+                  <span>DIMENSIONS & EFFICIENCY</span>
+                  <span>{activeTab === 'dimensions' ? '−' : '+'}</span>
+                </div>
+                {activeTab === 'dimensions' && (
+                  <div className="accordion-content">
+                    <div className="input-group">
+                      <label>Curb Weight (Lbs)</label>
+                      <input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>City MPG</label>
+                      <input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} />
+                    </div>
+                    <div className="input-group">
+                      <label>Highway MPG</label>
+                      <input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button type="submit" className="btn-nav" style={{ width: '100%', marginTop: '3rem', padding: '1.5rem', fontSize: '1.2rem' }} disabled={loading}>
+                {loading ? 'ANALYZING MARKET DATA...' : 'GENERATE AI VALUATION'}
               </button>
             </form>
 
-            {error && <div style={{ color: 'red', marginTop: '2rem', textAlign: 'center' }}>{error}</div>}
-            
+            {error && <div style={{ marginTop: '2rem', color: 'red', textAlign: 'center' }}>{error}</div>}
+
             {price && (
-              <div className="reveal active" style={{ marginTop: '4rem', textAlign: 'center', padding: '4rem', background: '#f8fafc', borderRadius: '2rem', border: '3px solid var(--primary)' }}>
-                <h3 style={{ fontSize: '0.8rem', letterSpacing: '2px', color: '#64748b' }}>MARKET ESTIMATE</h3>
-                <div style={{ fontSize: '5rem', fontWeight: 900 }}>${price.toLocaleString()}</div>
-                <p style={{ color: 'var(--primary)', fontWeight: 800 }}>98.4% Confidence Score</p>
+              <div style={{ marginTop: '5rem', textAlign: 'center', padding: '5rem', background: '#f8fafc', borderRadius: '3rem', border: '2px solid var(--primary)' }}>
+                <h3 style={{ fontSize: '0.9rem', letterSpacing: '2px', color: '#64748b', marginBottom: '1rem' }}>ESTIMATED MARKET VALUE</h3>
+                <div style={{ fontSize: '5rem', fontWeight: 900, color: '#0f172a' }}>
+                  ${price.toLocaleString()}
+                </div>
+                <p style={{ color: 'var(--primary)', fontWeight: 800 }}>Model Confidence: 98.4%</p>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      <footer style={{ padding: '4rem 0', textAlign: 'center', background: 'white' }}>
-        <p style={{ fontWeight: 800, color: '#94a3b8' }}>© 2026 ELITEVAL.PRO - AUTOMOTIVE INTELLIGENCE</p>
+      <footer style={{ padding: '6rem 0', textAlign: 'center', background: 'white', borderTop: '1px solid var(--border)' }}>
+        <div className="logo" style={{ marginBottom: '1rem' }}>VALUATE.PRO</div>
+        <p style={{ fontWeight: 800, color: '#94a3b8' }}>PRECISE AUTOMOTIVE ANALYTICS BY DESIGN</p>
       </footer>
     </div>
   );
