@@ -15,12 +15,12 @@ const defaultFeatures: CarFeatures = {
 };
 
 const showcaseData: ShowcaseCar[] = [
-    { brand: 'Audi A4 Premium', year: '2024', price: '$42,500', img: '/assets/audi.png' },
+    { brand: 'Mercedes-Benz S-Class', year: '2024', price: '$114,500', img: '/assets/mercedes.png' },
+    { brand: 'Porsche 911 Carrera', year: '2023', price: '$120,200', img: '/assets/porsche.png' },
+    { brand: 'Tesla Model S Plaid', year: '2024', price: '$89,900', img: '/assets/tesla.png' },
+    { brand: 'Range Rover', year: '2022', price: '$104,400', img: '/assets/rangerover.png' },
+    { brand: 'Lexus LS 500', year: '2024', price: '$78,100', img: '/assets/lexus.png' },
     { brand: 'BMW X5 xDrive', year: '2023', price: '$68,200', img: '/assets/bmw.png' },
-    { brand: 'Honda Civic Sport', year: '2024', price: '$26,900', img: '/assets/honda.png' },
-    { brand: 'Audi Q5 Prestige', year: '2022', price: '$38,400', img: '/assets/audi.png' },
-    { brand: 'BMW M3 Competition', year: '2024', price: '$82,100', img: '/assets/bmw.png' },
-    { brand: 'Honda Accord Touring', year: '2023', price: '$34,850', img: '/assets/honda.png' },
 ];
 
 const teamData: TeamMember[] = [
