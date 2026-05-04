@@ -63,7 +63,7 @@ const useScrollReveal = () => {
 
 const App: React.FC = () => {
     const [features, setFeatures] = useState<CarFeatures>(defaultFeatures);
-    const [activeAccordion, setActiveAccordion] = useState<string | null>('basic');
+    const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
     const { loading, price, error, runPrediction } = useCarPrediction();
     const predictorRef = useRef<HTMLDivElement>(null);
 
