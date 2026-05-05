@@ -10,11 +10,13 @@ RUN pip install --no-cache-dir \
     grpcio \
     grpcio-tools
 
-# نسخ كل الملفات
-COPY . .
-
-# تشغيل السكربت لتوليد الموديل
-RUN python train_and_save.py
+# نسخ ملفات الموديل والسكربتات
+# تأكد إن أسماء الملفات مطابقة للي عندك
+COPY car_model.pkl .
+COPY model_columns.pkl .
+COPY main_server.py .
+COPY car_predictor_pb2.py .
+COPY car_predictor_pb2_grpc.py .
 
 # فتح بورت الـ gRPC
 EXPOSE 50051

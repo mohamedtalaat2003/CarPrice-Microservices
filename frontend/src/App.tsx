@@ -30,15 +30,15 @@ const teamData: TeamMember[] = [
         image: '/assets/zyad.png',
         linkedin: 'https://www.linkedin.com/in/zyad-refaat',
         github: 'https://github.com/zyadrefaat2023-gif/Egypt',
-        phone: '01224296829'
+        email: 'zyadrefaat2023@gmail.com'
     },
     {
         name: 'Mohamed Talaat',
-        role: 'Lead System Architect',
+        role: 'Software Engineer',
         image: '/assets/mohamed.png',
         linkedin: 'https://www.linkedin.com/in/mohamed-talaat-',
         github: 'https://github.com/mohamedtalaat2003',
-        phone: '01096883659'
+        email: 'mohamedtalattt5@gmail.com'
     }
 ];
 
