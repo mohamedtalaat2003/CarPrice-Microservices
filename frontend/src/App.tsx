@@ -27,7 +27,7 @@ const teamData: TeamMember[] = [
     {
         name: 'Zyad Refaat',
         role: 'Machine Learning Engineer',
-        image: '/assets/zyad.png',
+        image: '/assets/zyad.jpeg',
         linkedin: 'https://www.linkedin.com/in/zyad-refaat',
         github: 'https://github.com/zyadrefaat2023-gif/Egypt',
         email: 'zyadrefaat2023@gmail.com'
@@ -35,7 +35,7 @@ const teamData: TeamMember[] = [
     {
         name: 'Mohamed Talaat',
         role: 'Software Engineer',
-        image: '/assets/mohamed.png',
+        image: '/assets/mohamed.jpeg',
         linkedin: 'https://www.linkedin.com/in/mohamed-talaat-',
         github: 'https://github.com/mohamedtalaat2003',
         email: 'mohamedtalattt5@gmail.com'
@@ -179,7 +179,7 @@ const App: React.FC = () => {
                                 <div className="input-box">
                                     <label>Vehicle Make</label>
                                     <select name="make" value={features.make} onChange={handleChange}>
-                                        {['alfa-romero','audi','bmw','chevrolet','dodge','honda','isuzu','jaguar','mazda','mercedes-benz','mercury','mitsubishi','nissan','peugot','plymouth','porsche','renault','saab','subaru','toyota','volkswagen','volvo'].map(m =>
+                                        {['alfa-romero', 'audi', 'bmw', 'chevrolet', 'dodge', 'honda', 'isuzu', 'jaguar', 'mazda', 'mercedes-benz', 'mercury', 'mitsubishi', 'nissan', 'peugot', 'plymouth', 'porsche', 'renault', 'saab', 'subaru', 'toyota', 'volkswagen', 'volvo'].map(m =>
                                             <option key={m} value={m}>{m.toUpperCase()}</option>
                                         )}
                                     </select>
@@ -202,7 +202,7 @@ const App: React.FC = () => {
                                 <div className="input-box">
                                     <label>Engine Type</label>
                                     <select name="engineType" value={features.engineType} onChange={handleChange}>
-                                        {['dohc','l','ohc','ohcf','ohcv','rotor'].map(t =>
+                                        {['dohc', 'l', 'ohc', 'ohcf', 'ohcv', 'rotor'].map(t =>
                                             <option key={t} value={t}>{t.toUpperCase()}</option>
                                         )}
                                     </select>
@@ -210,7 +210,7 @@ const App: React.FC = () => {
                                 <div className="input-box">
                                     <label>Cylinders</label>
                                     <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
-                                        {['eight','five','four','six','three','twelve','two'].map(c =>
+                                        {['eight', 'five', 'four', 'six', 'three', 'twelve', 'two'].map(c =>
                                             <option key={c} value={c}>{c.toUpperCase()}</option>
                                         )}
                                     </select>
