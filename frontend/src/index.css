@@ -316,6 +316,22 @@ h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
   gap: 2rem;
 }
 
+@media (max-width: 768px) {
+  .card-grid {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 1.5rem;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Hide scrollbar for cleaner look */
+  }
+  .card-grid::-webkit-scrollbar { display: none; }
+  .car-card {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+  }
+}
+
 .car-card {
   background: var(--dark-card);
   border: 1px solid var(--border);
@@ -511,6 +527,28 @@ h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
   margin: 4rem auto 0;
 }
 
+@media (max-width: 768px) {
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  .contact-card {
+    padding: 1.5rem 1rem;
+    flex: 1;
+    min-width: 0; /* Allow shrinking */
+  }
+  .contact-card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  .member-name { font-size: 0.9rem; }
+  .member-role { font-size: 0.6rem; margin-bottom: 1rem; }
+  .contact-links { font-size: 0.7rem; }
+}
+
 .contact-card {
   background: var(--dark-card);
   border: 1px solid var(--border);
@@ -554,7 +592,7 @@ h1, h2, h3, .logo { font-family: 'Space Grotesk', sans-serif; }
 }
 .contact-links a:hover { color: var(--primary); }
 .separator { margin: 0 0.5rem; color: rgba(255,255,255,0.1); }
-.member-phone { margin-top: 0.75rem; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+.member-email { margin-top: 0.75rem; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); word-break: break-all; }
 
 /* ============ FOOTER ============ */
 footer {
@@ -588,10 +626,10 @@ footer p { color: var(--text-muted); font-size: 0.8rem; }
   .hero-actions { justify-content: center; }
   .hero-image { order: -1; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .card-grid { grid-template-columns: 1fr; }
-  .contact-grid { grid-template-columns: 1fr; }
+  /* .card-grid and .contact-grid handled above */
   .accordion-content { grid-template-columns: 1fr; }
   .section-title { font-size: 2rem; }
   .result-price { font-size: 3.5rem; }
   .navbar-inner .nav-cta { display: none; }
+  .nav-team { display: none !important; } /* Hide team names in navbar on small phones to save space */
 }

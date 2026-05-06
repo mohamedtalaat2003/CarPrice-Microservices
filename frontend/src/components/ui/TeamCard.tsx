@@ -11,7 +11,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
                 <a href={member.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <span className="separator">|</span>
                 <a href={member.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-                <div className="member-phone">{member.phone}</div>
+                <div className="member-email">{member.email}</div>
             </div>
         </div>
     );

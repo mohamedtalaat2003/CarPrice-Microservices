@@ -32,5 +32,5 @@ export interface TeamMember {
     image: string;
     linkedin: string;
     github: string;
-    phone: string;
+    email: string;
 }

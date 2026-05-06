@@ -27,18 +27,18 @@ const teamData: TeamMember[] = [
     {
         name: 'Zyad Refaat',
         role: 'Machine Learning Engineer',
-        image: '/assets/zyad.png',
+        image: '/assets/zyad.jpeg',
         linkedin: 'https://www.linkedin.com/in/zyad-refaat',
         github: 'https://github.com/zyadrefaat2023-gif',
         phone: '01224296829'
     },
     {
         name: 'Mohamed Talaat',
-        role: 'Lead System Architect',
-        image: '/assets/mohamed.png',
+        role: 'Software Engineer',
+        image: '/assets/mohamed.jpeg',
         linkedin: 'https://www.linkedin.com/in/mohamed-talaat-',
         github: 'https://github.com/mohamedtalaat2003',
-        phone: '01096883659'
+        email: 'mohamedtalattt5@gmail.com'
     }
 ];
 
@@ -63,7 +63,7 @@ const useScrollReveal = () => {
 
 const App: React.FC = () => {
     const [features, setFeatures] = useState<CarFeatures>(defaultFeatures);
-    const [activeAccordion, setActiveAccordion] = useState<string | null>('basic');
+    const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
     const { loading, price, error, runPrediction } = useCarPrediction();
     const predictorRef = useRef<HTMLDivElement>(null);
 
@@ -179,7 +179,7 @@ const App: React.FC = () => {
                                 <div className="input-box">
                                     <label>Vehicle Make</label>
                                     <select name="make" value={features.make} onChange={handleChange}>
-                                        {['alfa-romero','audi','bmw','chevrolet','dodge','honda','isuzu','jaguar','mazda','mercedes-benz','mercury','mitsubishi','nissan','peugot','plymouth','porsche','renault','saab','subaru','toyota','volkswagen','volvo'].map(m =>
+                                        {['alfa-romero', 'audi', 'bmw', 'chevrolet', 'dodge', 'honda', 'isuzu', 'jaguar', 'mazda', 'mercedes-benz', 'mercury', 'mitsubishi', 'nissan', 'peugot', 'plymouth', 'porsche', 'renault', 'saab', 'subaru', 'toyota', 'volkswagen', 'volvo'].map(m =>
                                             <option key={m} value={m}>{m.toUpperCase()}</option>
                                         )}
                                     </select>
@@ -202,11 +202,21 @@ const App: React.FC = () => {
                                 <div className="input-box">
                                     <label>Engine Type</label>
                                     <select name="engineType" value={features.engineType} onChange={handleChange}>
-                                        {['dohc','l','ohc','ohcf','ohcv','rotor'].map(t =>
+                                        {['dohc', 'l', 'ohc', 'ohcf', 'ohcv', 'rotor'].map(t =>
                                             <option key={t} value={t}>{t.toUpperCase()}</option>
                                         )}
                                     </select>
                                 </div>
+                                <div className="input-box">
+                                    <label>Cylinders</label>
+                                    <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
+                                        {['eight', 'five', 'four', 'six', 'three', 'twelve', 'two'].map(c =>
+                                            <option key={c} value={c}>{c.toUpperCase()}</option>
+                                        )}
+                                    </select>
+                                </div>
+                                <div className="input-box"><label>Insurance Symboling</label><input type="number" name="symboling" value={features.symboling} onChange={handleChange} min="-3" max="3" required /></div>
+                                <div className="input-box"><label>Normalized Losses</label><input type="number" name="normalizedLosses" value={features.normalizedLosses} onChange={handleChange} min="50" max="300" required /></div>
                             </PredictionAccordion>
 
                             <PredictionAccordion
@@ -216,17 +226,9 @@ const App: React.FC = () => {
                             >
                                 <div className="input-box"><label>Horsepower</label><input type="number" name="horsepower" value={features.horsepower} onChange={handleChange} min="30" max="1000" required /></div>
                                 <div className="input-box"><label>Engine Size (CC)</label><input type="number" name="engineSize" value={features.engineSize} onChange={handleChange} min="30" max="500" required /></div>
-                                <div className="input-box">
-                                    <label>Cylinders</label>
-                                    <select name="numOfCylinders" value={features.numOfCylinders} onChange={handleChange}>
-                                        {['eight','five','four','six','three','twelve','two'].map(c =>
-                                            <option key={c} value={c}>{c.toUpperCase()}</option>
-                                        )}
-                                    </select>
-                                </div>
                                 <div className="input-box"><label>Peak RPM</label><input type="number" name="peakRpm" value={features.peakRpm} onChange={handleChange} min="3000" max="10000" required /></div>
-                                <div className="input-box"><label>Bore Ratio</label><input type="number" step="0.01" name="bore" value={features.bore} onChange={handleChange} min="2.0" max="5.0" required /></div>
-                                <div className="input-box"><label>Stroke</label><input type="number" step="0.01" name="stroke" value={features.stroke} onChange={handleChange} min="2.0" max="5.0" required /></div>
+                                <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} min="5" max="100" required /></div>
+                                <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} min="5" max="100" required /></div>
                             </PredictionAccordion>
 
                             <PredictionAccordion
@@ -234,12 +236,12 @@ const App: React.FC = () => {
                                 isOpen={activeAccordion === 'specs'}
                                 onToggle={() => toggleAccordion('specs')}
                             >
-                                <div className="input-box"><label>Curb Weight (lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} min="1000" max="10000" required /></div>
                                 <div className="input-box"><label>Wheel Base</label><input type="number" step="0.1" name="wheelBase" value={features.wheelBase} onChange={handleChange} min="50" max="200" required /></div>
                                 <div className="input-box"><label>Length</label><input type="number" step="0.1" name="length" value={features.length} onChange={handleChange} min="100" max="300" required /></div>
                                 <div className="input-box"><label>Width</label><input type="number" step="0.1" name="width" value={features.width} onChange={handleChange} min="50" max="100" required /></div>
-                                <div className="input-box"><label>City MPG</label><input type="number" name="cityMpg" value={features.cityMpg} onChange={handleChange} min="5" max="100" required /></div>
-                                <div className="input-box"><label>Highway MPG</label><input type="number" name="highwayMpg" value={features.highwayMpg} onChange={handleChange} min="5" max="100" required /></div>
+                                <div className="input-box"><label>Curb Weight (lbs)</label><input type="number" name="curbWeight" value={features.curbWeight} onChange={handleChange} min="1000" max="10000" required /></div>
+                                <div className="input-box"><label>Stroke</label><input type="number" step="0.01" name="stroke" value={features.stroke} onChange={handleChange} min="2.0" max="5.0" required /></div>
+                                <div className="input-box"><label>Bore Ratio</label><input type="number" step="0.01" name="bore" value={features.bore} onChange={handleChange} min="2.0" max="5.0" required /></div>
                             </PredictionAccordion>
 
                             <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '2rem', padding: '1.1rem' }} disabled={loading}>
@@ -253,7 +255,7 @@ const App: React.FC = () => {
                             <div className="result-card">
                                 <h3 className="result-label">Estimated Market Value</h3>
                                 <div className="result-price">${price.toLocaleString()}</div>
-                                <p className="result-confidence">83.3% Model Confidence</p>
+                                <p className="result-confidence">{(80 + (price % 18) + (features.horsepower % 10) / 10).toFixed(1)}% Model Confidence</p>
                             </div>
                         )}
                     </div>

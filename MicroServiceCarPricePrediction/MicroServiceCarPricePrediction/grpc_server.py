@@ -3,7 +3,18 @@ import joblib
 import pandas as pd
 import car_predictor_pb2
 import car_predictor_pb2_grpc
+import sys
+import logging
 from concurrent import futures
+
+
+# إعداد اللوجر ليظهر في الـ Terminal الخاص بالدوكر
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)] # توجيه اللوج للـ stdout ليراه الدوكر
+)
+logger = logging.getLogger("ML-Service")
 
 # 1. تحميل الموديل والأعمدة (مرة واحدة فقط)
 try:
@@ -14,6 +25,7 @@ except:
     print("Error: Model files not found. Run training script first.")
 
 class CarPriceServicer(car_predictor_pb2_grpc.CarPriceServiceServicer):
+    logger.info(f"Received prediction request for car brand flags.")
     def PredictPrice(self, request, context):
         try:
             # 2. استلام البيانات وتحويلها لـ Dictionary[cite: 1]
@@ -96,12 +108,13 @@ class CarPriceServicer(car_predictor_pb2_grpc.CarPriceServiceServicer):
 
             # 4. التوقع
             prediction = model.predict(df)[0]
-
+            logger.info("Prediction successful.")
             return car_predictor_pb2.PriceResponse(
                 predicted_price=float(prediction),
                 message="Prediction successful"
             )
         except Exception as e:
+            logger.error(f"Prediction failed: {str(e)}")
             return car_predictor_pb2.PriceResponse(
                 predicted_price=0,
                 message=f"Python Error: {str(e)}"
