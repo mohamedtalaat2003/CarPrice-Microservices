@@ -29,7 +29,7 @@ const teamData: TeamMember[] = [
         role: 'Machine Learning Engineer',
         image: '/assets/zyad.png',
         linkedin: 'https://www.linkedin.com/in/zyad-refaat',
-        github: 'https://github.com/zyadrefaat2023-gif/Egypt',
+        github: 'https://github.com/zyadrefaat2023-gif',
         phone: '01224296829'
     },
     {
