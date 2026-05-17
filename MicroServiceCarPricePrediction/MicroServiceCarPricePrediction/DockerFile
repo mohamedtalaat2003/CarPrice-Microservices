@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir \
 # تأكد إن أسماء الملفات مطابقة للي عندك
 COPY car_model.pkl .
 COPY model_columns.pkl .
-COPY main_server.py .
+COPY grpc_server.py .
 COPY car_predictor_pb2.py .
 COPY car_predictor_pb2_grpc.py .
 
