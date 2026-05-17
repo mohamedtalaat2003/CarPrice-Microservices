@@ -30,7 +30,7 @@ const teamData: TeamMember[] = [
         image: '/assets/zyad.jpeg',
         linkedin: 'https://www.linkedin.com/in/zyad-refaat',
         github: 'https://github.com/zyadrefaat2023-gif',
-        email: 'zyadrefaar2023@gmail.com'
+        email: 'zyadrefaat2023@gmail.com'
     },
     {
         name: 'Mohamed Talaat',
@@ -45,7 +45,7 @@ const teamData: TeamMember[] = [
 // Scroll reveal hook
 const useScrollReveal = () => {
     useEffect(() => {
-        const observer = new IntersectionObserver(
+        const io = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -56,14 +56,24 @@ const useScrollReveal = () => {
             { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
         );
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        return () => observer.disconnect();
+        const observeAll = () => {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el));
+        };
+
+        observeAll();
+
+        // Watch for dynamically added elements (e.g. result card)
+        const mo = new MutationObserver(observeAll);
+        mo.observe(document.body, { childList: true, subtree: true });
+
+        return () => { io.disconnect(); mo.disconnect(); };
     }, []);
 };
 
 const App: React.FC = () => {
     const [features, setFeatures] = useState<CarFeatures>(defaultFeatures);
     const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+    const [showNote, setShowNote] = useState(false);
     const { loading, price, error, runPrediction } = useCarPrediction();
     const predictorRef = useRef<HTMLDivElement>(null);
 
@@ -167,6 +177,17 @@ const App: React.FC = () => {
                     <div className="section-header reveal">
                         <div className="section-tag">ML Engine</div>
                         <h2 className="section-title">Get Your Estimate</h2>
+                        <span
+                            onClick={() => setShowNote(p => !p)}
+                            style={{ display: 'inline-block', marginTop: '1.25rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.35rem 1rem', borderRadius: '50px', border: '1px solid rgba(99,102,241,0.35)', color: '#a78bfa', background: showNote ? 'rgba(99,102,241,0.15)' : 'transparent', transition: 'all 0.25s ease', userSelect: 'none' }}
+                        >
+                            {showNote ? '× Close Note' : '⚠ Note'}
+                        </span>
+                        {showNote && (
+                            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.75, maxWidth: '560px', margin: '1rem auto 0', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', borderRadius: '0.875rem', padding: '1rem 1.25rem', textAlign: 'left' }}>
+                                <strong style={{ color: '#a78bfa' }}>Model Limitation:</strong> The training dataset is heavily skewed toward mid-range vehicles. High-end luxury cars ($40k+) are significantly underrepresented, so the model tends to underestimate their market value. Predictions are most reliable in the <strong style={{ color: '#e2e8f0' }}>$5,000 – $35,000</strong> range.
+                            </p>
+                        )}
                     </div>
                     <div className="form-container reveal reveal-delay-1">
                         <form onSubmit={handlePredict}>

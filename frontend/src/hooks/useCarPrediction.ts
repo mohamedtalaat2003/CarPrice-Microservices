@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getHandshakeToken, predictPrice, type CarFeatures } from '../api';
+import { type CarFeatures } from '../types/car';
+import { getHandshakeToken, predictPrice } from '../api';
 
 export const useCarPrediction = () => {
     const [loading, setLoading] = useState(false);

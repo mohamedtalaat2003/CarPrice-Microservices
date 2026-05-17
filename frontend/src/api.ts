@@ -1,26 +1,5 @@
-export interface CarFeatures {
-  // Numeric
-  wheelBase: number;
-  length: number;
-  width: number;
-  curbWeight: number;
-  engineSize: number;
-  bore: number;
-  stroke: number;
-  horsepower: number;
-  peakRpm: number;
-  cityMpg: number;
-  highwayMpg: number;
-  normalizedLosses: number;
-  symboling: number;
-  
-  // Categorical (to be mapped)
-  make: string;
-  fuelType: string;
-  driveWheels: string;
-  engineType: string;
-  numOfCylinders: string;
-}
+import { type CarFeatures } from './types/car';
+export type { CarFeatures };
 
 const API_BASE = "https://api-service.calmmoss-0396cbc1.germanywestcentral.azurecontainerapps.io/api";
 
@@ -49,18 +28,18 @@ export const predictPrice = async (token: string, features: CarFeatures): Promis
     symboling: features.symboling,
     
     // One-hot mapping
-    gas: features.fuelType === "gas" ? 1 : 0,
-    diesel: features.fuelType === "diesel" ? 1 : 0,
-    
-    fourWd: features.driveWheels === "4wd" ? 1 : 0,
-    fwd: features.driveWheels === "fwd" ? 1 : 0,
-    rwd: features.driveWheels === "rwd" ? 1 : 0,
+    Gas: features.fuelType === "gas" ? 1 : 0,
+    Diesel: features.fuelType === "diesel" ? 1 : 0,
+
+    FourWd: features.driveWheels === "4wd" ? 1 : 0,
+    Fwd: features.driveWheels === "fwd" ? 1 : 0,
+    Rwd: features.driveWheels === "rwd" ? 1 : 0,
   };
 
-  // Map Makes
+  // Map Makes — split on hyphens and capitalize each word for correct PascalCase
   const makes = ["alfa-romero", "audi", "bmw", "chevrolet", "dodge", "honda", "isuzu", "jaguar", "mazda", "mercedes-benz", "mercury", "mitsubishi", "nissan", "peugot", "plymouth", "porsche", "renault", "saab", "subaru", "toyota", "volkswagen", "volvo"];
   makes.forEach(m => {
-    const key = m.replace(/-/g, "").charAt(0).toUpperCase() + m.replace(/-/g, "").slice(1);
+    const key = m.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('');
     dto[key] = features.make === m ? 1 : 0;
   });
 
