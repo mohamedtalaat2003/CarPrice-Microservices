@@ -5,8 +5,6 @@ EliteVal is a highly optimized, production-grade polyglot microservice applicati
 The application leverages a modern microservice architecture, utilizing **Python** for machine learning execution, **.NET Core C#** as a robust, resilient API Gateway, and **React (TypeScript)** for a stunning, responsive, glassmorphic user interface. The communication between backend microservices is powered by **gRPC** for maximum speed and minimal latency.
 
 Live Frontend: **[eliteval.ml](https://car-price-microservices-aye5.vercel.app)** *(Currently routed to the Vercel staging deployment)*  
-Live REST API: `https://api-service.calmmoss-0396cbc1.germanywestcentral.azurecontainerapps.io/api`
-
 ---
 
 ## 📐 Microservices Architecture Diagram
